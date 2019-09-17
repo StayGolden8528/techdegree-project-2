@@ -25,17 +25,14 @@ div.appendChild(button);
 
 //empty div to hold a 'no result' message if no student exists
 const noResult = document.createElement('div');
-page.appendChild(noResult);
 
-  //empty array to hold search results
-  const newList = [];
 
 
 //function to hide all but the desired number of students per page
 const showPage = (list, page) => {
    const startIndex = (page * itemsPerPage) - itemsPerPage;
    const endIndex = (page * 10) - 1;
-   for (let i = 0; i < studentList.length; i += 1) {
+   for (let i = 0; i < list.length; i += 1) {
       if (i >= startIndex && i <= endIndex) {
          list[i].style.display = 'block';
       } else {
@@ -48,6 +45,11 @@ showPage(studentList, 1);
 
 //function which creates the number of pages and anchor tags based on the list
 const appendPageLinks = (list) => {
+
+   let pagination = document.querySelector('.pagination');
+   if (pagination) {
+      pagination.parentNode.removeChild(pagination);
+   }
    //creates the div and determines number of pages needed
    const pages = Math.ceil(list.length / itemsPerPage);
    const div = document.createElement('div');
@@ -76,7 +78,7 @@ const appendPageLinks = (list) => {
          links[i].classList.remove('active');
          e.target.className = 'active';
 
-         showPage(studentList, e.target.textContent);
+         showPage(list, e.target.textContent);
          });
       }
    }   
@@ -86,9 +88,8 @@ appendPageLinks(studentList);
 
 // function to search the directory of students from the list based on the user input
 const searchDir = (search, name) => {
-
-   // set the noResult div to an empty string
-   noResult.textContent = '';
+     //empty array to hold search results
+   const newList = [];
 
    // loop to compare the names and search input
    for (let i = 0; i < name.length; i += 1){
@@ -96,19 +97,24 @@ const searchDir = (search, name) => {
       const searchInput = search.value.toLowerCase();
       const studentName = name[i].textContent.toLowerCase();
 
+      // if (searchInput.length === 0) {
+      //    noResult.textContent ='';
+      // }
+
       //if the search matches a name - add it to the empty array
       if (searchInput !== 0 && studentName.includes(searchInput)) {
-         name[i].style.display = '';
          newList.push(name[i]);
-         newList.length = 0;
-         
-      } 
-      if (searchInput == 0 && studentName == 0) {
-         noResult.textContent = 'Sorry, no student found'; //not working :(
+         noResult.textContent = '';
       }
-   }
-   appendPageLinks(newList);
-   
+      //if the new array is empty and the search input is not - add no result message
+      if (newList.length === 0 && searchInput.length !== 0) {
+         noResult.textContent = "Sorry, no results found";
+         page.appendChild(noResult);
+      } else {
+         showPage(newList, 1);   
+         appendPageLinks(newList);      
+      }
+   }  
 };
 
 
