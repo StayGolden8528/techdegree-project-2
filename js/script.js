@@ -45,6 +45,7 @@ showPage(studentList, 1);
 //function which creates the number of pages and anchor tags based on the list
 const appendPageLinks = (list) => {
 
+   //when the appendPageLinks Function is called, check if pagination is true(exists) and remove it before the next loop
    let pagination = document.querySelector('.pagination');
    if (pagination) {
       pagination.parentNode.removeChild(pagination);
