@@ -27,7 +27,6 @@ div.appendChild(button);
 const noResult = document.createElement('div');
 
 
-
 //function to hide all but the desired number of students per page
 const showPage = (list, page) => {
    const startIndex = (page * itemsPerPage) - itemsPerPage;
@@ -97,10 +96,6 @@ const searchDir = (search, name) => {
       const searchInput = search.value.toLowerCase();
       const studentName = name[i].textContent.toLowerCase();
 
-      // if (searchInput.length === 0) {
-      //    noResult.textContent ='';
-      // }
-
       //if the search matches a name - add it to the empty array
       if (searchInput !== 0 && studentName.includes(searchInput)) {
          newList.push(name[i]);
@@ -116,8 +111,6 @@ const searchDir = (search, name) => {
       }
    }  
 };
-
-
 
 button.addEventListener('click', (event) => {
    event.preventDefault();
